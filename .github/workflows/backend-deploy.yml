@@ -11,18 +11,67 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Go environment
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: '1.23'  
 
       - name: Build the backend
-        run: go build -o main . 
+        run: go build -o main .
 
       - name: Deploy to VM
         run: |
-          scp -o StrictHostKeyChecking=no -r ./main oguzhankayapinar@34.69.56.249:~/backend
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  
+          echo "-----BEGIN OPENSSH PRIVATE KEY-----
+          b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
+          NhAAAAAwEAAQAAAgEAt6Y2JF6kzxtUxBETSw+AZfNXR30HTNP702uX2lZ1N8ExjEZhwzYb
+          wsuXqMuYLR7RKmFda/8olzbbA8vQBKvedYYAWXAia3CWVyVFUDQpP+gjEJskHazJcS6NFL
+          3dSZ54kPEJpcVMeCPv941k419HGo4SrpBkKQbrn3OoCvZ854RMZDzP5KFZKpEuKPG+Bb02
+          xjHeUKtRkgv4TVX102I7qvEonEpQ/bRDo2Bl5FhbJ1iLkdm+b5Z9xA0aZ/v8Njo+ZGa/9n
+          VSK14INe4dzHeXG+RV72hKo36uP36u8EQ5xlWP+SrNCsnq8H5/ARmK3LIKjyXq7YwtYdYX
+          kK3EwHGEKqIeDSj2+PfXfdZdh7XX8PN2sTfY1ZXXPN5y6ZaHRvPZ/RT/xZCdKo5o6RfgWg
+          eOPHPDYkqojzCdPSqibw3cB4Pk9V6iDVPxy0pL4Xln9rFFLlRFkyryjGhKtinQfJlVJeUr
+          ScRrKS/9BjtliV1gHVa0S6F/JBPjA1meskHvr/gDi9/1P8hlgWT7LYu730WplWoIc+Ddn/
+          pwSnHHNq1DX58lJEeZBN9dWNQEt4cUTViq4V//c0DT/Oll6+I3JSQB25IqNEmpZ/s4yPIk
+          Q1436sO1zfeTaeYAOvQ3j5ahIGUSR9qhcjtnteUlArsAWJSdpknEvVJ6wDx/ag5EEYAQmD
+          UAAAdQO+QFTTvkBU0AAAAHc3NoLXJzYQAAAgEAt6Y2JF6kzxtUxBETSw+AZfNXR30HTNP7
+          02uX2lZ1N8ExjEZhwzYbwsuXqMuYLR7RKmFda/8olzbbA8vQBKvedYYAWXAia3CWVyVFUD
+          QpP+gjEJskHazJcS6NFL3dSZ54kPEJpcVMeCPv941k419HGo4SrpBkKQbrn3OoCvZ854RM
+          ZDzP5KFZKpEuKPG+Bb02xjHeUKtRkgv4TVX102I7qvEonEpQ/bRDo2Bl5FhbJ1iLkdm+b5
+          Z9xA0aZ/v8Njo+ZGa/9nVSK14INe4dzHeXG+RV72hKo36uP36u8EQ5xlWP+SrNCsnq8H5/
+          ARmK3LIKjyXq7YwtYdYXkK3EwHGEKqIeDSj2+PfXfdZdh7XX8PN2sTfY1ZXXPN5y6ZaHRv
+          PZ/RT/xZCdKo5o6RfgWgeOPHPDYkqojzCdPSqibw3cB4Pk9V6iDVPxy0pL4Xln9rFFLlRF
+          kyryjGhKtinQfJlVJeUrScRrKS/9BjtliV1gHVa0S6F/JBPjA1meskHvr/gDi9/1P8hlgW
+          T7LYu730WplWoIc+Ddn/pwSnHHNq1DX58lJEeZBN9dWNQEt4cUTViq4V//c0DT/Oll6+I3
+          JSQB25IqNEmpZ/s4yPIkQ1436sO1zfeTaeYAOvQ3j5ahIGUSR9qhcjtnteUlArsAWJSdpk
+          nEvVJ6wDx/ag5EEYAQmDUAAAADAQABAAACAQCD0njWjmD6kIG94wvYOx5ND+i8VdChoyAF
+          2Bs+DAVDqhcou3R9LR+sKXuJG+r1qEM3ioAGfzbho+x9wxRj5gJelXs2t7jdKgmgMA6azX
+          Y2eyiASPwZmOdXqLR4CPkIWQnt8DaemQqUyib7qLCcTM27D/P0/YwHrwH+iIQ8qkVp4Zr7
+          8HLBh9d7KI7bsPpXIERq62zKts5saM8oo+U6gC6YO1aNKQMNuRE7+nvo9ksn6PT2EjgR3R
+          IVYdpsfYHCYvhaFS8Bd6Eto+d83pjhJY5/5NySZmf9B3eH+CUWLcLSzKP1lHVtoxZS3lnH
+          rk/wrpPJwMvrC02gBo8PuMub31+gCXMpquTrjj3+Sw7WJRy614BoTCvwDAYDOCL/nP+cm8
+          sJpEilrbjmS1xyI8g4NpEb5exMeOJeFZTw3m98XkixcQtrcDjA3MDGVmogHKpjgvWiu9ev
+          wpUi105NZQQ12+OjKkhcOvH2kM7EQj169rabg2cWcXTgNjdSxGA5JIHtDQzK5MtBA9Fq4C
+          eVWUlrWkPgV1U3KlGNfpqN9K49sEdnsFwjKfZFnPcaenOczEUEuJWMvCeUcS5nR65BsZtq
+          x7zdkhskNv3Jr5FN0nEyc5ijlqRZ6IZLGSL5tJ9VS8dmWlTlWLp6sLNUYtiLh6Ew1IwhtW
+          TFsOnAwLCl1PU5zcdA2QAAAQA8QjqDI6gsFsuKV5PDerPDDJQy0WS7ZXU+tjr5LxQofrir
+          fQCigPNOu1rzvwelfyd7/JWIKa5vgQvrh9S/3KiY0HBB12xUTGI4wTJ+yIJcxmFboihLLk
+          bXM7pfPbpkMZO3uI0i5mvkQYYYZGeGK/1fh/qUXjEETg8zMnSFHiJyao9v0RPPTddQFnvr
+          S9k7UtrSS0ve4XHWqe3NXydTwr1vVVKwbNudKl9HKv33GIYznaa6eijsEpcFVCVD8jo1IX
+          6429D1EBfqKJnJoMsGM25x7l5pxEzxveAOruVajP25nQsSpm3tG7TtGX6Fe610IfSRhpnd
+          K3/eYeq/d1KuUF4iAAABAQDxvESNlnvyFaMW4NuccHIBGR477vQnIbYHQQVMMDYBHd2QHE
+          zQepcXsdHKwWhvkX40JzjNCZDaPOBYHlel5bG4fqE4MhneMiCwIpV7hJxt7nFAM68/SsX0
+          3pUPCCRiIE9HXPvp/nXkBLxNdx/Wb8Gcn+EhyEhgY8q1VCe7iGhfwpq8oUzXqNF2Crap8B
+          Gb0QePYYp6IMGqAFhpBDONG5waZT14gx11Fy7adAdeNnktIvwWc3NRUxBneuaU6QkF9+E7
+          L464qZMGw6tHLHrXLy0+/lzfzFV9jbWZG7wXWEx+xcswwaOs55B9bhy74oswtDwglYJkks
+          I/Z3IOoct1Y/PfAAABAQDCfHnJFgd7JHhzKbr/4z74T+1GDapnWevPRS3rgIk1IOZv0Nay
+          wW/tKRo9GQtwTCN8HMvv7hTbQJRErNjj6cE94feS31pFma/D/E+UQdh3Hj3yTka74Y+X+a
+          NKYUe/bpJXm3wD/Tgm9+FZ/Oy+A4NB0gOkpaRGQgQKo01HAoTdoOI9ffNyMtbHwTsitt7D
+          hnQg/ztWeSvv8MDVEraC1WfP6iqVFp/mt3JPxqeP32bMy8V0GeaSa4NCgtJduQ2G0fONxo
+          4AhsyfEWaoFsliC3Rv386f0Ha0GdLRmJEfBghW8327c+KnG+OAkXSu8+ADmFFC2JlyXb8s
+          4I5XA8+WO5ZrAAAAGm9ndXpoYW5rYXlhcGluYXJAZ21haWwuY29t
+          -----END OPENSSH PRIVATE KEY-----" > private_key.pem
+          chmod 600 private_key.pem
+          scp -o StrictHostKeyChecking=no -i private_key.pem -r ./main oguzhankayapinar@34.69.56.249:~/backend
+          rm private_key.pem
