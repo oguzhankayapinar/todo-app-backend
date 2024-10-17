@@ -1,0 +1,28 @@
+name: Backend Deployment
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Go environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.23'  
+
+      - name: Build the backend
+        run: go build -o main . 
+
+      - name: Deploy to VM
+        run: |
+          scp -o StrictHostKeyChecking=no -r ./main oguzhankayapinar@34.69.56.249:~/backend
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  
