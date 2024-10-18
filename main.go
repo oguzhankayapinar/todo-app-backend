@@ -45,7 +45,7 @@ func main() {
 	})
 
 	corsOptions := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://34.69.56.249:8081"},
+		AllowedOrigins:   []string{"http://localhost:8081"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With", "Accept"},
 		ExposedHeaders:   []string{"Content-Length"},
@@ -73,7 +73,7 @@ func createTodoHandler(w http.ResponseWriter, r *http.Request) {
 	IdCounter++
 	Todos[todo.ID] = todo
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://34.69.56.249:8081")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(todo)
 }
@@ -84,7 +84,7 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://34.69.56.249:8081")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(Todos)
 }
@@ -112,7 +112,7 @@ func updateTodoHandler(w http.ResponseWriter, r *http.Request, id int) {
 	todo.Completed = updatedTodo.Completed
 	Todos[id] = todo
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://34.69.56.249:8081")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(todo)
 }
@@ -131,6 +131,6 @@ func deleteTodoHandler(w http.ResponseWriter, r *http.Request, id int) {
 
 	delete(Todos, id)
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://34.69.56.249:8081")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
 	w.WriteHeader(http.StatusNoContent)
 }
